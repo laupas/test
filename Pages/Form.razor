@@ -1,0 +1,34 @@
+
+@page "/Form"
+@using Microsoft.Extensions.Logging;
+@inject ILogger<Form> logger;
+
+ <RadzenAutoComplete Placeholder="Select..." FilterOperator="StringFilterOperator.Contains" Data=@data TextProperty="Value" Style="margin-bottom: 20px" Change=@(args => OnFilter(args)) />
+
+<RadzenDropDown AllowClear="true" TValue="string" Style="width:300px" Data=@(data.Select(c => c.Value).Distinct()) Change=@(args => OnChange(args)) />
+    
+@code {
+    class Data {
+        public string Value { get; set; }
+    }
+    IEnumerable<Data> data;
+
+    protected override void OnInitialized()
+    {
+        var temp = new List<Data>();
+        temp.Add(new Data(){ Value = "Value1" });
+        temp.Add(new Data(){ Value = "Value2" });
+        temp.Add(new Data(){ Value = "Value3" });
+        data = temp;
+        logger.LogInformation("Load...");
+    }
+
+    private void OnChange(object valie){
+        logger.LogInformation(valie.ToString());
+    }
+
+    private void OnFilter(object valie){
+        logger.LogInformation(valie.ToString());
+    }
+
+}

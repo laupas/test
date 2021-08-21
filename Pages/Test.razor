@@ -10,12 +10,14 @@
 
 <p>Environment: @HostEnvironment.Environment</p>
 
-
-
     <RadzenButton Text="Show info notification" Style="margin-bottom: 20px; width: 200px"
         ButtonStyle="ButtonStyle.Info"
         Click=@(args => ShowNotification("test " + args.OffsetX )) />
-            
+
+    <RadzenButton Text="Show info notification" Style="margin-bottom: 20px; width: 200px"
+        ButtonStyle="ButtonStyle.Info"
+        Click=@Error/>
+
 @code {
     
     [Parameter]
@@ -27,6 +29,11 @@
         message.Detail = text;
         NotificationService.Notify(message);
 
+    }
+
+    void Error()
+    {
+        throw new Exception("Test");
     }
 
  string text = "Hi";
