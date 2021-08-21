@@ -1,6 +1,6 @@
 {
-  "name": "blazor2",
-  "short_name": "blazor2",
+  "name": "test.lauener.zone",
+  "short_name": "test.lauener.zone",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
