@@ -1,0 +1,33 @@
+@page "/test"
+@page "/test/{*pageRoute}"
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@inject IWebAssemblyHostEnvironment HostEnvironment
+@inject NotificationService NotificationService
+
+<p>
+    PageRoute: @PageRoute
+</p>
+
+<p>Environment: @HostEnvironment.Environment</p>
+
+
+
+    <RadzenButton Text="Show info notification" Style="margin-bottom: 20px; width: 200px"
+        ButtonStyle="ButtonStyle.Info"
+        Click=@(args => ShowNotification("test " + args.OffsetX )) />
+            
+@code {
+    
+    [Parameter]
+    public string PageRoute { get; set; }
+
+    void ShowNotification(string text)
+    {
+        var message = new NotificationMessage();
+        message.Detail = text;
+        NotificationService.Notify(message);
+
+    }
+
+ string text = "Hi";
+}
