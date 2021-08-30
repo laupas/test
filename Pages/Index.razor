@@ -1,6 +1,25 @@
 ﻿@page "/"
+@using prismic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.Extensions.Logging
+@inject ILogger<Index> logger
+@inject IPrismicApiAccessor accessor
+@inject DocumentLinkResolver resolver
 
-<h1>Hello, test!</h1>
+@if (doc == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @((MarkupString)doc.GetHtml("simple_page.title", resolver))
+    @((MarkupString)doc.GetHtml("simple_page.body", resolver))
+}
 
-First attempt with Blazor
-@* <SurveyPrompt Title="How is Blazor working for you?" /> *@
+@code {
+    Document doc;
+    protected override async Task OnInitializedAsync(){
+        var api = await accessor.GetApi();
+        doc = await api.GetByUID("simple_page", "page_1");
+    }
+}
