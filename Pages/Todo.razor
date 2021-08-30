@@ -1,4 +1,4 @@
-﻿@page "/todo"
+﻿@page "/{language}/todo"
 @using Lauener.Test
 
 <h1>Todo (@todos.Count(todo => !todo.IsDone))</h1>
@@ -16,6 +16,9 @@
 <button @onclick=AddTodo>Add todo</button>
 
 @code {
+    [Parameter]
+    public string Language { get; set; }
+
     private List<TodoItem> todos = new();
     private string newTodo;
 

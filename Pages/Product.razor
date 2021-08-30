@@ -1,4 +1,4 @@
-﻿@page "/product/{uuid}"
+﻿@page "/{language}/product/{uuid}"
 @using prismic
 @using Microsoft.AspNetCore.Http
 @using Microsoft.Extensions.Logging
@@ -19,6 +19,9 @@ else
 @code {
      [Parameter]
     public string Uuid { get; set; }
+
+    [Parameter]
+    public string Language { get; set; }
 
     Document doc;
     protected override async Task OnInitializedAsync(){

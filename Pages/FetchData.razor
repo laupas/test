@@ -1,4 +1,4 @@
-﻿@page "/fetchdata"
+﻿@page "/{language}/fetchdata"
 @inject HttpClient Http
 
 <h1>Weather forecast</h1>
@@ -36,6 +36,9 @@ else
 
 @code {
     private WeatherForecast[] forecasts;
+
+    [Parameter]
+    public string Language { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

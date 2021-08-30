@@ -1,5 +1,5 @@
-@page "/test"
-@page "/test/{*pageRoute}"
+@page "/{language}/test"
+@page "/{language}/test/{*pageRoute}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Hosting
 @inject IWebAssemblyHostEnvironment HostEnvironment
 @inject NotificationService NotificationService
@@ -19,19 +19,22 @@
               Click=@Error />
 
 @code {
-        [Parameter]
-        public string PageRoute { get; set; }
+    [Parameter]
+    public string PageRoute { get; set; }
 
-        void ShowNotification(string text)
-        {
-            var message = new NotificationMessage();
-            message.Detail = text;
-            message.Style = "Info";
-            NotificationService.Notify(message);
-        }
+    [Parameter]
+    public string Language { get; set; }
 
-        void Error()
-        {
-            throw new Exception("Test");
-        }
+    void ShowNotification(string text)
+    {
+        var message = new NotificationMessage();
+        message.Detail = text;
+        message.Style = "Info";
+        NotificationService.Notify(message);
     }
+
+    void Error()
+    {
+        throw new Exception("Test");
+    }
+}

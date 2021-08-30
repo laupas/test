@@ -1,0 +1,42 @@
+@using  System.Globalization
+@using Microsoft.AspNetCore.Http
+@inject NavigationManager Nav
+
+<p>
+    <label>
+        Select your locale:
+        <select @bind="Language">
+            @foreach (var culture in supportedCultures)
+            {
+                <option value="@culture">@culture</option>
+            }
+        </select>
+    </label>
+</p>
+
+@code
+{
+    private string[] supportedCultures = new[]
+    {
+        "en-US",
+        "de-DE",
+    };
+
+    protected override void OnInitialized()
+    {
+        Language =  Nav.Uri.Replace(Nav.BaseUri, string.Empty).Split('/').First();
+    }
+
+    private string Language
+    {
+        get => Nav.Uri.Replace(Nav.BaseUri, string.Empty).Split('/').First();
+        set
+        {
+            var oldValue = Nav.Uri.Replace(Nav.BaseUri, string.Empty).Split('/').First();
+            if(oldValue != value)
+            {
+                Nav.NavigateTo(Nav.Uri.Replace(oldValue, value), forceLoad: true);
+            }
+        }
+    }
+}

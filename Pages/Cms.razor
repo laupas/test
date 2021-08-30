@@ -1,4 +1,4 @@
-﻿@page "/cms/{uuid}"
+﻿@page "/{language}/cms/{uuid}"
 @using prismic
 @using Microsoft.AspNetCore.Http
 @using Microsoft.Extensions.Logging
@@ -17,8 +17,11 @@ else
 }
 
 @code {
-     [Parameter]
+    [Parameter]
     public string Uuid { get; set; }
+
+    [Parameter]
+    public string Language { get; set; }
 
     Document doc;
     protected override async Task OnInitializedAsync(){
@@ -27,6 +30,6 @@ else
     protected override async Task OnParametersSetAsync()
     {
         var api = await accessor.GetApi();
-        doc = await api.GetByUID("simple_page", this.Uuid);
+        doc = await api.GetByUID("simple_page", this.Uuid, lang: this.Language);
     }
 }

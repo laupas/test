@@ -1,4 +1,4 @@
-@page "/counter"
+@page "/{language}/counter"
 
 @using Microsoft.Extensions.Logging;
 @inject ILogger<Counter> logger;
@@ -11,6 +11,9 @@
 
 @code {
     private int currentCount = 0;
+
+    [Parameter]
+    public string Language { get; set; }
 
     private void IncrementCount()
     {

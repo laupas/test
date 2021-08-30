@@ -1,6 +1,7 @@
 ﻿@using prismic
 @inject IPrismicApiAccessor accessor
 @inject DocumentLinkResolver resolver
+@inject NavigationManager Nav
 
 <div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">blazor</a>
@@ -49,16 +50,17 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var language = Nav.Uri.Replace(Nav.BaseUri, string.Empty).Split('/').First();
         var api = await accessor.GetApi();
 
         pages = new List<MenuItem>();
-        pages.Add(new  MenuItem("Home", "/"));
+        pages.Add(new  MenuItem("Home", language));
 
         var cms = new  MenuItem("CMS", "");
         var cmsPages = await api.Query(Predicates.At("document.type", "simple_page")).Submit();
         foreach(var page in cmsPages.Results)
         {
-            cms.Items.Add(new MenuItem(page.GetText("simple_page.title"), "/cms/" + page.Uid));
+            cms.Items.Add(new MenuItem(page.GetText("simple_page.title"), language + "/cms/" + page.Uid));
         }
         pages.Add(cms);
 
@@ -66,15 +68,15 @@
         var productPages = await api.Query(Predicates.At("document.type", "produc")).Submit();
         foreach(var page in productPages.Results)
         {
-            products.Items.Add(new MenuItem(page.GetText("produc.product_name"), "/product/" + page.Uid));
+            products.Items.Add(new MenuItem(page.GetText("produc.product_name"),  language + "/product/" + page.Uid));
         }
         pages.Add(products);
 
-        pages.Add(new  MenuItem("Counter", "Counter"));
-        pages.Add(new  MenuItem("Fetch data", "fetchdata"));
-        pages.Add(new  MenuItem("Todo", "todo"));
-        pages.Add(new  MenuItem("Test", "Test"));
-        pages.Add(new  MenuItem("Form", "form"));
+        pages.Add(new  MenuItem("Counter", language + "/Counter"));
+        pages.Add(new  MenuItem("Fetch data", language + "/fetchdata"));
+        pages.Add(new  MenuItem("Todo", language + "/todo"));
+        pages.Add(new  MenuItem("Test", language + "/Test"));
+        pages.Add(new  MenuItem("Form", language + "/form"));
     }
 
     public class MenuItem

@@ -1,10 +1,11 @@
-﻿@page "/"
+﻿@page "/{language?}"
 @using prismic
 @using Microsoft.AspNetCore.Http
 @using Microsoft.Extensions.Logging
 @inject ILogger<Index> logger
 @inject IPrismicApiAccessor accessor
 @inject DocumentLinkResolver resolver
+@inject NavigationManager Nav
 
 @if (doc == null)
 {
@@ -17,9 +18,20 @@ else
 }
 
 @code {
+
+    [Parameter]
+    public string Language { get; set; }
+
     Document doc;
     protected override async Task OnInitializedAsync(){
+        
+        if(string.IsNullOrEmpty(this.Language))
+        {
+            Language = "en-US";
+            Nav.NavigateTo(Language, forceLoad: true);
+        }
+
         var api = await accessor.GetApi();
-        doc = await api.GetByUID("simple_page", "page_1");
+        doc = await api.GetByUID("simple_page", "page_1", lang: this.Language);
     }
 }

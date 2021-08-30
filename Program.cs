@@ -13,6 +13,7 @@ using prismic.fragments;
 
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 
 namespace blazor
 {
@@ -33,6 +34,8 @@ namespace blazor
 
             //prismic
             builder.Services.AddHttpContextAccessor();
+//            builder.Services.AddScoped<HttpContextAccessor>();
+
             builder.Services.AddMemoryCache();
             builder.Services.AddSingleton<ICache, InMemoryCache>();
             builder.Services.AddHttpClient<PrismicHttpClient>();

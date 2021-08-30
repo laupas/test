@@ -1,5 +1,5 @@
 
-@page "/Form"
+@page "/{language}/Form"
 @using Microsoft.Extensions.Logging;
 @inject ILogger<Form> logger;
 
@@ -12,6 +12,9 @@
         public string Value { get; set; }
     }
     IEnumerable<Data> data;
+
+    [Parameter]
+    public string Language { get; set; }
 
     protected override void OnInitialized()
     {
