@@ -1,0 +1,45 @@
+@page "/preview"
+
+@using prismic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.Extensions.Logging
+@inject ILogger<Preview> logger
+@inject IPrismicApiAccessor accessor
+@inject DocumentLinkResolver resolver
+@inject NavigationManager Nav
+
+
+
+@if (doc == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @((MarkupString)doc.GetHtml("simple_page.title", resolver))
+    @((MarkupString)doc.GetHtml("simple_page.body", resolver))
+}
+
+@code {
+
+    Document doc = null;
+
+    protected override async Task OnInitializedAsync(){
+        var queryString = System.Web.HttpUtility.ParseQueryString(new Uri(Nav.Uri).Query);
+        var token = queryString.Get("token");
+        var documentId = queryString.Get("documentId");
+
+        var api = await accessor.GetApi();
+
+        //https%3A%2F%2Flauener.prismic.io%2Fpreviews%2FYSy6ORIAACkAesyB%3FwebsitePreviewId%3DYSzj3hIAAC8Ae4oQ&documentId=YSs8MRIAACgAdCSG
+        //https://lauener.prismic.io/previews/YSy6ORIAACkAesyB?websitePreviewId=YSzj3hIAAC8Ae4oQ&documentId=YSs8MRIAACgAdCSG
+
+        var url = await api.PreviewSession(token + "test", resolver, "https://127.0.0.1:5001/en-US/cms/");
+        logger.LogInformation("XXXXXXXXXXXXXXXXXXXX:" + token);
+        logger.LogInformation("XXXXXXXXXXXXXXXXXXXX:" + documentId);
+        logger.LogInformation("XXXXXXXXXXXXXXXXXXXX:" + url.ToString());
+        Nav.NavigateTo(url, forceLoad: false);
+//        doc = await api.GetByUID("simple_page", documentId, reference: url);
+//        logger.LogInformation("XXXXXXXXXXXXXXXXXXXX:" + doc);
+    }
+}

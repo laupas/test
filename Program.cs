@@ -68,7 +68,7 @@ namespace blazor
     {
         public override string Resolve(DocumentLink link)
         {
-            return link.Uid.ToString();
+            return "/en-US/cms/" + link.Uid.ToString();
         }
     }
 }

@@ -6,6 +6,9 @@
 @inject IPrismicApiAccessor accessor
 @inject DocumentLinkResolver resolver
 @inject NavigationManager Nav
+@using Microsoft.AspNetCore.Components.Web.Extensions.Head
+
+<Title Value="Test 1234" />
 
 @if (doc == null)
 {
@@ -19,6 +22,8 @@ else
 
 @code {
 
+    public bool preview = true;
+    
     [Parameter]
     public string Language { get; set; }
 
