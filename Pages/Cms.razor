@@ -1,0 +1,32 @@
+﻿@page "/cms/{uuid}"
+@using prismic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.Extensions.Logging
+@inject ILogger<Index> logger
+@inject IPrismicApiAccessor accessor
+@inject DocumentLinkResolver resolver
+
+@if (doc == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @((MarkupString)doc.GetHtml("simple_page.title", resolver))
+    @((MarkupString)doc.GetHtml("simple_page.body", resolver))
+}
+
+@code {
+     [Parameter]
+    public string Uuid { get; set; }
+
+    Document doc;
+    protected override async Task OnInitializedAsync(){
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var api = await accessor.GetApi();
+        doc = await api.GetByUID("simple_page", this.Uuid);
+    }
+}
